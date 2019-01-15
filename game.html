@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en" class="box">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="x-ua-compatible" content="ie=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no,user-scalable=no">
+	<meta name="format-detection" content="telephone=no"/>
+	<meta name="screen-orientation" content="portrait">
+	<meta name="x5-orientation" content="portrait">
+	<meta name="x5-fullscreen" content="true">
+	<meta name="x5-page-mode" content="app">
+	<title>大众点评·结婚</title>
+	<link rel="stylesheet" href="../lib/css/H5Reset.css">
+	<link rel="stylesheet" href="css/cropper.css">
+	<link rel="stylesheet" href="css/main.css">
+	<link rel="stylesheet" href="../lib/css/swiper.min.css">
+	
+	<style>
+		
+		* {
+			margin: 0;
+			padding: 0;
+			border: none;
+			
+		}
+		
+		.col-md-9 {
+			padding: 0;
+		}
+		
+		.box {
+			overflow: hidden;
+			-webkit-overflow-scrolling: touch;
+		}
+		
+		body, html {
+			overflow: hidden;
+			height: 100%;
+			touch-action: none;
+			background-repeat: no-repeat;
+			background-position: center top;
+			background-size: 100% 100%;
+		}
+		
+		body {
+			webkit-transform: translate3d(0, 0, 0);
+			transform: translate3d(0, 0, 0);
+		}
+		
+		.img-container, .img-preview {
+			/*background: #fff;*/
+		}
+		
+		/*		.cropper-bg {
+						background-image: none;
+					}*/
+		
+		.container {
+			width: 74vw;
+			height: 74vw;
+			position: relative;
+			top: 15%;
+			overflow: hidden;
+			margin: 0 auto;
+			border: 4px solid #ff6585;
+		}
+		
+		#buttons {
+			position: absolute;
+			bottom: 13%;
+			height: 8vh;
+			width: 100%;
+			margin: 0;
+		}
+		
+		.docs-buttons {
+			width: 100%;
+			height: 100%;
+		}
+		
+	/*	.docs-buttons > div {
+			float: left;
+		}*/
+		
+		#upBtn, #finishBtn {
+			height: 100%;
+		}
+		
+		.btn-upload, #postImg {
+			width: 100%;
+			height: 100%;
+			/*border: none;*/
+			outline: none;
+		}
+		
+		#rotateBtns {
+			width: 50%;
+			height: 100%;
+		}
+		
+		#rotateBtns > button {
+			width: 50%;
+			height: 100%;
+			outline: none;
+			margin: 0;
+			padding: 0;
+			float: left;
+			border: none;
+		}
+		
+		#getCroppedCanvasModal {
+			/*display: none !important;*/
+		}
+		
+		#inputImage {
+			opacity: 0;
+			width: 100%;
+			height: 100%;
+		}
+		
+		
+		#bigPhotoBtn {
+			position: absolute;
+			z-index: 50;
+			left: -webkit-calc(50% - (15% / 2));
+			bottom: 23%;
+		}
+		
+		#modal 
+		{
+		    display:none;
+			width: 100%;
+			height: 100%;
+			position: fixed;
+			left: 0;
+			top: 0;
+			z-index: 99999 !important;
+			background: rgba(0, 0, 0, .5);
+		}
+		
+		#modal img {
+			position: absolute;
+			left: -webkit-calc(50% - (30% / 2));
+			top: 40%;
+		}
+		
+		.cropper-view-box {
+			border: none;
+			outline: none;
+		}
+		
+		#info {
+			position: absolute;
+			width: 50%;
+			text-align: center;
+			left: -webkit-calc(50% - (50% / 2));
+			top: -70%;
+			font-size: 1.2rem;
+		}
+		
+		#confirmUi {
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			left: 0;
+			top: 0;
+			background: rgba(0, 0, 0, 0.6);
+		}
+		
+		.modal-body {
+			height: 0;
+			padding: 0 2% 100%;
+		}
+		
+		.swiper-slide {
+			text-align: center;
+		}
+		
+		.swiper-container {
+			top: 13%
+		}
+		
+		.swiper-button {
+			background-image: none;
+			width: 57px;
+			height: 100px;
+		}
+		
+		.btn {
+			position: absolute;
+			width: 30%;
+			height: 8%;
+			left: -webkit-calc(50% - (30% / 2));
+			bottom: 12%;
+			outline: none;
+		}
+		
+		
+		#merge {
+			display: none;
+		}
+		
+		#uploadImg {
+			display: none;
+		}
+    #finalImg
+    {
+        display:none;
+        position:absolute;
+        left:-webkit-calc(50% - (70%/2));
+        top: 5%;
+		 border: 4px solid #ff6585;
+      
+    }
+    #select
+    {
+        display:none;
+    }
+    .swiper-button-next, .swiper-button-prev
+    {
+        top:55%;
+        height:150px;
+        }
+	</style>
+</head>
+<body class="scroll">
+<div id="select" style="height: 100%;">
+	<div class="swiper-container">
+		<ul class="swiper-wrapper">
+			<li class="swiper-slide"><img class="images" width="50%" src="images/1.jpg" alt=""></li>
+			<li class="swiper-slide"><img class="images" width="50%" src="images/2.jpg" alt=""></li>
+			<li class="swiper-slide"><img class="images" width="50%" src="images/3.jpg" alt=""></li>
+		</ul>
+		<div class="swiper-button-prev swiper-button"></div><!--左箭头-->
+		<div class="swiper-button-next swiper-button"></div><!--右箭头-->
+	</div>
+	<input type="button" id="confirm" class="btn">
+</div>
+<div id="uploadImg" style="height: 100%">
+	<img src="images/photoBtn.png" alt="" id="bigPhotoBtn" width="15%"
+	     onclick="document.getElementById('inputImage').click()">
+	<!-- Content -->
+	<div class="container">
+		<div class="row">
+			<div class="col-md-9">
+				<!-- <h3>Demo:</h3> -->
+				<div class="img-container" onclick="document.getElementById('inputImage').click()">
+					<img id="image" src="" alt="">
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="buttons" class="row">
+		<div class="docs-buttons">
+			<div id="upBtn" style="display: none">
+				<!--<button type="button" class="btn btn-primary" data-method="reset" title="Reset">
+				<span class="docs-tooltip" data-toggle="tooltip" data-animation="false"
+					  title="$().cropper(&quot;reset&quot;)">
+				  <span class="fa fa-refresh"></span>
+				</span>
+				</button>-->
+				<label class="btn-upload" for="inputImage" title="Upload image file">
+					<input type="file" class="sr-only" id="inputImage" name="file"
+					       accept="image/*">
+					<span class="docs-tooltip" data-toggle="tooltip" data-animation="false"
+					      title="Import image with Blob URLs">
+              <span class="fa fa-upload"></span>
+            </span>
+				</label>
+			
+			</div>
+			<div id="finishBtn">
+				<button type="button" id="postImg" data-method="getCroppedCanvas">
+            <span style="width: 100%;height: 100%;" class="docs-tooltip" data-toggle="tooltip" data-animation="false"
+                  title="$().cropper(&quot;getCroppedCanvas&quot;)">
+              
+            </span>
+				</button>
+			
+			</div>
+			<!--		<div id="rotateBtns">
+						<button type="button" class="" data-method="rotate" data-option="-45"
+								title="Rotate Left">
+						<span class="docs-tooltip" data-toggle="tooltip" data-animation="false"
+							  title="$().cropper(&quot;rotate&quot;, -45)">
+						</span>
+						</button>
+						<button type="button" class="" data-method="rotate" data-option="45"
+								title="Rotate Right">
+						<span class="docs-tooltip" data-toggle="tooltip" data-animation="false"
+							  title="$().cropper(&quot;rotate&quot;, 45)">
+						</span>
+						</button>
+					</div>-->
+		
+		</div>
+	</div>
+</div>
+
+<img src='' width='70%' id='finalImg' />
+<div id="modal"><img src="images/loading.gif" alt="" width="30%"></div>
+<!-- Scripts -->
+<script src="../lib/js/jquery-1.11.2.min.js"></script>
+<script src="../lib/js/jweixin-1.0.0.js"></script>
+<script src="../lib/js/swiper.min.js"></script>
+
+<script src="js/popper.min.js"></script>
+<script src="js/cropper.js"></script>
+<script src="js/main.js" defer></script>
+
+<script>
+	//	var getUserInfoUrl = "http://api.1shi.com.cn/?type=weixin&action=getuserbase&" + location.search.substr(1);
+	var $body = $('body'), 
+        bg = 'backgroundImage', 
+        appid = 'mergeImg', 
+        base64=null, 
+        index,
+        isShared=getUrlParam('keyid'),
+        keyid,
+        appid = 'dzdp_uploadImg';
+        
+
+    $('#confirm').on('click', function () {
+		    $(this).hide();
+		    $('#select').hide();
+		    $('#upload,#uploadImg').show();
+		    $body.css(bg, 'url(images/bg2.jpg)')
+	    });
+
+	//监听屏幕是否旋转
+	function orientationChange() {
+
+		switch (window.orientation) {
+			//竖屏
+			case 0:
+				//alert("肖像模式 0,screen-width: " + screen.width + "; screen-height:" + screen.height);
+				break;
+			//左横屏
+			case -90:
+				//alert("左旋 -90,screen-width: " + screen.width + "; screen-height:" + screen.height);
+				break;
+			//右横屏
+			case 90:
+				//alert("右旋 90,screen-width: " + screen.width + "; screen-height:" + screen.height);
+				break;
+			//反转,一般不用
+			case 180:
+				//alert("风景模式 180,screen-width: " + screen.width + "; screen-height:" + screen.height);
+				break;
+		}
+	}
+
+
+	// 添加事件监听
+	addEventListener('load', function () {
+		orientationChange();
+		window.onorientationchange = orientationChange;
+
+	});
+	/**
+	 * 禁止浏览器下拉回弹
+	 */
+	var overscroll = function (el) {
+		el.addEventListener('touchstart', function () {
+			var top = el.scrollTop
+				, totalScroll = el.scrollHeight
+				, currentScroll = top + el.offsetHeight;
+			//If we're at the top or the bottom of the containers
+			//scroll, push up or down one pixel.
+			//
+			//this prevents the scroll from "passing through" to
+			//the body.
+			if ( top === 0 ) {
+				el.scrollTop = 1
+			} else if ( currentScroll === totalScroll ) {
+				el.scrollTop = top - 1
+			}
+		});
+		el.addEventListener('touchmove', function (evt) {
+			//if the content is actually scrollable, i.e. the content is long enough
+			//that scrolling can occur
+			if ( el.offsetHeight < el.scrollHeight )
+				evt._isScroller = true
+		})
+	};
+
+(function (){
+    var url = 'https://api.shi1.cn/yl/trans.ashx?type=weixin&action=getjsapiticket&url=' + encodeURIComponent(location.href) + '&jsoncallback=?';
+    $.getJSON(url, function(json) {
+        wx.config({
+            debug: false,
+            appId: json.appId,
+            timestamp: json.timestamp,
+            nonceStr: json.nonceStr,
+            signature: json.signature,
+            jsApiList: ['onMenuShareTimeline', 'onMenuShareAppMessage']
+        });
+    });
+    wx.ready(function() {
+    	if(isShared){
+    	    keyid=isShared
+	        $body.css(bg,'url(images/bg3.jpg)')
+	        $.post('https://api.shi1.cn/yl/YLHandler.ashx',{
+	            type:'PrizeClawB',
+	            action:'dzdppollingh5',
+	            keyid:isShared
+	        },function(data){
+	            if(data.Status!=200){
+	               alert('服务器原因,照片未能显示')
+	            }
+	             var photoUrl = 'data:image/jpeg;base64,' + decodeURIComponent(data.image)
+	             $('#select,#uploadImg').hide();
+	             $body.css(bg,'url(images/bg3.jpg)');
+	             $('#finalImg').show().attr('src',photoUrl)
+                 wx.showOptionMenu();
+		          share()
+	        })
+	    }else{
+	        $('#select').show()
+	       $body.css(bg,'url(images/bg.jpg)')
+          wx.hideOptionMenu();
+	       var mySwiper = new Swiper('.swiper-container', {
+			// autoplay: true,//可选选项，自动滑动
+			    loop: true,
+			    loopAdditionalSlides: 1,
+			    navigation: {
+				    nextEl: '.swiper-button-next',
+				    prevEl: '.swiper-button-prev',
+			    },
+			    on: {
+				    slideChangeTransitionEnd: function () {
+					    index = this.realIndex;
+					    console.log(index);
+					    // alert(index);//切换结束时，告诉我现在是第几个slide
+				    },
+			    },
+		    })
+	   
+	    }
+    });
+    wx.error(function(res) {
+    });
+})()
+function share() {
+    var imgUrl = 'https://api.shi1.cn/open/dianping_merge/images/logo.jpg';
+    var lineLink = 'https://api.shi1.cn/open/dianping_merge?keyid=' + keyid;
+    var descContent = 'WHITE HONEY';
+    var shareTitle = '大众点评·结婚';
+    wx.onMenuShareAppMessage({
+        title: shareTitle,
+        desc: descContent,
+        link: lineLink,
+        imgUrl: imgUrl,
+        type: '',
+        dataUrl: '',
+        success: function() {
+            $.get('https://api.shi1.cn/yl/trans.ashx?type=bigdata&action=pageshare&site=0&appid=' + appid + '&openid=00&sharetypemessage');
+        },
+        cancel: function() { }
+    });
+
+    wx.onMenuShareTimeline({
+        title: shareTitle,
+        link: lineLink,
+        imgUrl: imgUrl,
+        success: function() {
+            $.get('https://api.shi1.cn/yl/trans.ashx?type=bigdata&action=pageshare&site=0&appid=' + appid + '&openid=00&sharetypetimeline');
+
+        },
+        cancel: function() { }
+    });
+}
+	function getUrlParam(name) {
+		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+		var r = location.search.substr(1).match(reg);
+		if ( r != null ) return decodeURI(decodeURIComponent(decodeURI(r[ 2 ])));
+		return null;
+	}
+	
+	window.onload = function () {
+		overscroll(document.querySelector('.scroll'));
+		document.body.addEventListener('touchmove', function (evt) {
+			if ( !evt._isScroller ) {
+				evt.preventDefault();
+			}
+		});
+
+
+//        if (!checkTimestamp()) {
+//            $body.html('已失效,请重新扫描大屏二维码进入游戏...').css({
+//                'text-align': 'center',
+//                'font-size': '5vw',
+//                'font-family': '微软雅黑',
+//                'padding-top': '30vh',
+//                'background-image':'none'
+//            });
+//            return;
+//        }
+	}
+
+</script>
+</body>
+</html>

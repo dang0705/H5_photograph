@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script>
+		    var tourl = location.href.split('?')[0];
+		    var name = 'game.html';
+		    tourl = tourl.indexOf('index.html') > 0 ? tourl.replace('index.html', name) : tourl + name;
+		
+			location.href = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx49112264a558af25&redirect_uri='
+				+ encodeURIComponent(tourl + '?'+location.search.substr(1)) +
+				'&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect';
+		
+		</script>
+
+	</head>
+	<body>
+	</body>
+</html>
